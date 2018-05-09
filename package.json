@@ -7,8 +7,8 @@
     "debug": "node --debug-brk --inspect ./node_modules/.bin/jest -i",
     "test": "jest",
     "test:watch": "jest --watchAll",
-    "dev": "webpack --progress --colors --watch --env dev --mode=development",
-    "build": "webpack --env dev --mode=development && webpack --env build --mode=development && npm run test ",
+    "dev": "webpack --progress --colors --watch --env dev --mode=development --module-bind js=babel-loader ",
+    "build": "webpack --env dev --mode=development --module-bind js=babel-loader && npm run test ",
     "repl": "local-repl"
   },
   "keywords": [
@@ -26,6 +26,7 @@
     "babel-jest": "^22.4.3",
     "babel-loader": "^7.1.4",
     "babel-plugin-add-module-exports": "^0.2.1",
+    "babel-plugin-syntax-async-generators": "^6.13.0",
     "babel-preset-env": "^1.6.1",
     "doctest": "^0.14.0",
     "eslint": "^4.19.1",

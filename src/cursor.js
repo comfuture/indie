@@ -35,11 +35,15 @@ export default class Cursor {
     return new Promise((resolve, reject) => resolve([...this]))
   }
 
-  async *[Symbol.iterator]() {
+  async *__iter__() {
     await waitUntil(() => this.cursorReady)
     while (this.cursor) {
       yield this.cursor.value
       this.cursor.continue()
     }
+  }
+
+  async [Symbol.iterator]() {
+    return this.__iter__()
   }
 }
