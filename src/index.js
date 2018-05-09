@@ -1,7 +1,8 @@
 import DB from './db'
 
 export default function indie(name, version = 1) {
-  return new DB(name, version)
+  let db = new DB(name, version)
+  return db.open()
 }
 
 export const Index = (name) => ({name, unique: false})

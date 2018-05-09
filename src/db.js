@@ -1,46 +1,43 @@
 import Store from './store'
 import Transaction from './transaction'
 
+export const indexedDB = function() {
+  return window.indexedDB || window.mozIndexedDB || window.webkitIndexedDB || window.msIndexedDB
+}()
+
 export function isSupported() {
   if (typeof window === 'undefined') {
     return false
   }
-  let indexedDB = window.indexedDB || window.mozIndexedDB || window.webkitIndexedDB || window.msIndexedDB
-  return indexDB !== null
+  return indexedDB !== null
 }
 
-export function open(name, version = 1) {
-  if (!isSupported()) {
-    throw new Error('indexDB is not supported')
-  }
-  return new Promise((resolve, reject) => {
-    let req = window.indexedDB.open(name, version)
-    req.onerror = event => {
-      reject(`indexDB open error: ${event.target.errorCode}`)
-    }
-    req.onupgradeneeded = event => {
-      // TODO: implement this
-    }
-    req.onsuccess = event => {
-      resolve(event.target.result)
-    }
-  })
-}
-
-export default class DB extends Promise {
+export default class DB {
   constructor(name, version = 1) {
-    super((resolve, reject) => {
-      // before
-      return open(name, version).then(idb => {
-        this.idb = idb
-        resolve(this)
-      })
-    })    
+    this.name = name
+    this.version = version
   }
 
-  // then(onFulfilled, onRejected) {
-  //   return super.then(onFulfilled, onRejected)
-  // }
+  open() {
+    if (!isSupported()) {
+      throw new Error('indexDB is not supported')
+    }
+    return new Promise((resolve, reject) => {
+      let req = window.indexedDB.open(this.name, this.version)
+      req.onerror = event => {
+        reject(`indexDB open error: ${event.target.errorCode}`)
+      }
+      req.onupgradeneeded = event => {
+        this.idb = event.target.result
+        // TODO: implement this
+        resolve(this)
+      }
+      req.onsuccess = event => {
+        this.idb = event.target.result
+        resolve(this)
+      }
+    })
+  }
 
   Scheme(name, scheme) {
     // create store with scheme
