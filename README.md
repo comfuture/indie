@@ -3,7 +3,7 @@
 An indexDB wrapper that follows contemporary es6 styles.  
 aka. **in**dex**DB** **i**n **e**s6
 
-![travis ci](https://travis-ci.org/comfuture/indie)
+![travis ci](https://travis-ci.org/comfuture/indie.svg)
 
 ## Installation
 
