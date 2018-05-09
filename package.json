@@ -47,6 +47,8 @@
     "yargs": "^11.0.0"
   },
   "jest": {
-    "transform": {}
+    "transform": {
+      "^.+\\.js$": "babel-jest"
+    }
   }
 }
